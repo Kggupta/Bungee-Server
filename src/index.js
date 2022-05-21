@@ -28,7 +28,6 @@ app.use(cors());
 app.use(express.json());
 requireAll(process.cwd() + "/src/routes");
 
-// Global error handling
 app.use(function (err, _req, res, _next) {
   res.status(500)
   res.send('Invalid Path.');
