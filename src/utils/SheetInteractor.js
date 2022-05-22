@@ -61,15 +61,18 @@ class Sheet {
     }
 
     async updateVal(value, r, c, s, e) {
+        let didUpdate = false;
         for (let i = 0; i < this.page.columnCount; i++) {
             if (this.page.getCell(this.termRow, i).value != c) continue;
             for (let row = s; row < e; row++) {
                 if (this.page.getCell(row, 0).value != r) continue;
+                didUpdate = true;
                 this.page.getCell(row, i).value = value;
                 break;
             }
             break;
         }
+        if (!didUpdate) throw Error("No update done.")
         await this.page.saveUpdatedCells();
     }
 
