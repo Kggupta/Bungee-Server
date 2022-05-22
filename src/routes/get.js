@@ -3,7 +3,6 @@ const Sheet = require('../utils/SheetInteractor.js');
 const recordRoutes = express.Router();
 
 recordRoutes.route('/sheet/:trm').get(async function (req, res) {
-    console.log("Hi")
     let sheet = new Sheet();
     try {
         await sheet.init();
