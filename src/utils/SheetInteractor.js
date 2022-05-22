@@ -83,7 +83,7 @@ class Sheet {
 
     async getTerms() {
         let data = [];
-        for (let i = 0; i < this.page.columnCount; i++) {
+        for (let i = 1; i < this.page.columnCount; i++) {
             let term = this.page.getCell(this.termRow, i).value
             let {expenses, income} = this.getTerm(term);
             data.push({term, expenses, income});
