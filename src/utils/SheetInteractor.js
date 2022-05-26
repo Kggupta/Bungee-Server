@@ -1,11 +1,11 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 class Sheet {
-    constructor () {
-        this.sheet = process.env.SHEET_ID;
+    constructor(id) {
+        this.sheet = id || process.env.SHEET_ID;
         this.doc;
-        this.expenseIdx = {start:0, end: 0};
-        this.incomeIdx = {start:0, end:0};
+        this.expenseIdx = { start: 0, end: 0 };
+        this.incomeIdx = { start: 0, end: 0 };
         this.termRow;
     }
 
@@ -26,12 +26,12 @@ class Sheet {
         let onExpenses = false;
         for (let i = 0; i < this.page.rowCount; i++) {
             const name = this.page.getCell(i, 0).value;
-            if (name == "Expenses") {this.expenseIdx.start = i+1; onExpenses = true;}
-            if (name == "Incomes") {this.incomeIdx.start = i+1; onExpenses = false;}
-            if (name == "Term") {this.termRow = i;}
+            if (name == "Expenses") { this.expenseIdx.start = i + 1; onExpenses = true; }
+            if (name == "Incomes") { this.incomeIdx.start = i + 1; onExpenses = false; }
+            if (name == "Term") { this.termRow = i; }
             if (name == "TOTAL") {
                 if (onExpenses) {
-                    this.expenseIdx.end = i; 
+                    this.expenseIdx.end = i;
                     onExpenses = false;
                 } else {
                     this.incomeIdx.end = i;
@@ -48,16 +48,16 @@ class Sheet {
             for (let row = this.expenseIdx.start; row < this.expenseIdx.end; row++) {
                 const name = this.page.getCell(row, 0).value;
                 const value = this.page.getCell(row, i).value || 0;
-                expenses.push({name, value});
+                expenses.push({ name, value });
             }
             for (let row = this.incomeIdx.start; row < this.incomeIdx.end; row++) {
                 const name = this.page.getCell(row, 0).value;
                 const value = this.page.getCell(row, i).value || 0;
-                income.push({name, value});
+                income.push({ name, value });
             }
             break;
         }
-        return {expenses, income};
+        return { expenses, income };
     }
 
     async updateVal(value, r, c, s, e) {
@@ -88,8 +88,8 @@ class Sheet {
         let data = [];
         for (let i = 1; i < this.page.columnCount; i++) {
             let term = this.page.getCell(this.termRow, i).value
-            let {expenses, income} = this.getTerm(term);
-            data.push({term, expenses, income});
+            let { expenses, income } = this.getTerm(term);
+            data.push({ term, expenses, income });
         }
         return data;
     }
