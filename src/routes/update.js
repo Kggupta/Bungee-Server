@@ -2,11 +2,11 @@ const express = require('express');
 const Sheet = require('../utils/SheetInteractor.js');
 const recordRoutes = express.Router();
 
-recordRoutes.route('/sheet/expense').patch(async (req, res) => {
-    const {item, term, value} = req.body;
+recordRoutes.route('/sheet/:id/expense').patch(async (req, res) => {
+    const { item, term, value } = req.body;
     if (item == undefined || term == undefined || isNaN(value)) { res.sendStatus(400); return; }
 
-    let sheet = new Sheet();
+    let sheet = new Sheet(req.params.id);
     try {
         await sheet.init();
         await sheet.saveExpense(item, term, value);
@@ -17,11 +17,11 @@ recordRoutes.route('/sheet/expense').patch(async (req, res) => {
     }
 })
 
-recordRoutes.route('/sheet/income').patch(async (req, res) => {
-    const {item, term, value} = req.body;
+recordRoutes.route('/sheet/:id/income').patch(async (req, res) => {
+    const { item, term, value } = req.body;
     if (item == undefined || term == undefined || isNaN(value)) { res.sendStatus(400); return; }
 
-    let sheet = new Sheet();
+    let sheet = new Sheet(req.params.id);
     try {
         await sheet.init();
         await sheet.saveIncome(item, term, value);
