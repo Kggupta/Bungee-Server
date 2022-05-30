@@ -16,7 +16,7 @@ recordRoutes.route('/sheet/:id/:trm').get(async function (req, res) {
     }
 })
 
-recordRoutes.route('/sheet/:id').get(async function (req, res) {
+recordRoutes.route('/sheet/:id/').get(async function (req, res) {
     let sheet = new Sheet(req.params.id);
     try {
         await sheet.init();
