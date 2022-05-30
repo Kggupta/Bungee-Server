@@ -57,7 +57,7 @@ class Sheet {
             }
             break;
         }
-        return { expenses, income };
+        return { term, expenses, income };
     }
 
     async updateVal(value, r, c, s, e) {
